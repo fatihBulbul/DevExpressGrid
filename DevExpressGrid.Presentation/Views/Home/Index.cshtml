@@ -1,0 +1,125 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>
+        Example
+    </title>
+    <!-- DevExtreme themes -->
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.5/css/dx.common.css">
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.5/css/dx.light.css">
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- DevExtreme library -->
+    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/20.2.5/js/dx.all.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            function isNotEmpty(value) {
+                return value !== undefined && value !== null && value !== "";
+            }
+            var store = new DevExpress.data.CustomStore({
+                //key: "OrderNumber",
+                load: function (loadOptions) {
+                    var deferred = $.Deferred(),
+                        args = {};
+                    [
+                        "skip",
+                        "take",
+                        "requireTotalCount",
+                        "sort",
+                        "filter"
+                    ].forEach(function (i) {
+                        if (i in loadOptions && isNotEmpty(loadOptions[i]))
+                            args[i] = JSON.stringify(loadOptions[i]);
+                    });
+
+                    $.ajax({
+                        url: "/home/getdata",
+                        dataType: "json",
+                        data: args,
+                        success: function (result) {
+                            deferred.resolve(result.data, {
+                                totalCount: result.totalCount
+                            });
+                        },
+                        error: function () {
+                            deferred.reject("Data Loading Error");
+                        },
+                        //timeout: 50000
+                    });
+
+                    return deferred.promise();
+                }
+            });
+
+            $("#gridContainer").dxDataGrid({
+                dataSource: store,
+                columnsAutoWidth: true,
+                filterRow: { visible: true },
+                filterPanel: { visible: true },
+                headerFilter: { visible: true },
+                filterBuilder: {
+                    allowHierarchicalFields: true
+                },
+                filterBuilderPopup: {
+                    position: { of: window, at: "top", my: "top", offset: { y: 10 } },
+                },
+                showBorders: true,
+                remoteOperations: true,
+                paging: {
+                    pageSize: 3
+                },
+                pager: {
+                    showPageSizeSelector: true,
+                    allowedPageSizes: [3, 4, 8]
+                },
+                columns: [{
+                    caption: "Id",
+                    dataField: "ID",
+                    dataType: "number"
+                },
+                {
+                    caption: "Company Name",
+                    dataField: "CompanyName",
+                    dataType: "string"
+                },
+                {
+                    dataField: "Address",
+                    dataType: "string"
+                },
+                {
+                    dataField: "City",
+                    dataType: "string"
+                },
+                {
+                    dataField: "State",
+                    dataType: "string"
+                },
+                {
+                    dataField: "Zipcode",
+                    dataType: "number"
+                },
+                {
+                    dataField: "Phone",
+                    dataType: "string"
+                },
+                {
+                    dataField: "Fax",
+                    dataType: "string"
+                },
+                {
+                    dataField: "Website",
+                    dataType: "string"
+                }]
+            }).dxDataGrid("instance");
+        });
+    </script>
+</head>
+<body>
+    <div id="gridContainer"></div>
+</body>
+</html>
+
+
