@@ -45,7 +45,7 @@ namespace DevExpressGrid.Presentation.Models
 
         public string State { get; set; }
 
-        public long Zipcode { get; set; }
+        public long? Zipcode { get; set; }
 
         public string Phone { get; set; }
 

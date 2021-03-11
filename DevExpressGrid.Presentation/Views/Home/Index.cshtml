@@ -22,11 +22,13 @@
             var store = new DevExpress.data.CustomStore({
                 //key: "OrderNumber",
                 load: function (loadOptions) {
+                    console.log(loadOptions)
                     var deferred = $.Deferred(),
                         args = {};
                     [
                         "skip",
                         "take",
+                        "group",
                         "requireTotalCount",
                         "sort",
                         "filter"
@@ -39,6 +41,7 @@
                         url: "/home/getdata",
                         dataType: "json",
                         data: args,
+                        type:'POST',
                         success: function (result) {
                             deferred.resolve(result.data, {
                                 totalCount: result.totalCount

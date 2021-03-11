@@ -1,10 +1,10 @@
-﻿using DevExpressGrid.Extensions.Common;
+﻿using DevExpressGrid.Extensions.Helpers;
 using DevExpressGrid.Extensions.Models;
 using System.Linq;
 
 namespace DevExpressGrid.Extensions.DataExtensions
 {
-    public static class Queryable
+    internal static class Queryable
     {
         public static IQueryable<T> Where<T>(this IQueryable<T> source, string conditions) where T : class
         {
@@ -29,6 +29,16 @@ namespace DevExpressGrid.Extensions.DataExtensions
             }
 
             return (IOrderedQueryable<T>)source;
+        }
+
+        public static IQueryable<object> GroupByAndSelectKey<T>(this IQueryable<T> source, params GroupModel[] groups)
+        {
+            var lambda = ExpressionHelper.ToLambda<T>(groups[0].selector);
+            return source.GroupBy(lambda).Select(x => new
+            {
+                count = x.Count(),
+                key = x.Key
+            });
         }
     }
 }

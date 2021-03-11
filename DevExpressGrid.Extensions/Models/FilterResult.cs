@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 
 namespace DevExpressGrid.Extensions.Models
 {
-    public class FilterResult<T> where T:class
+    public class FilterResult
     {
-        public IEnumerable<T> data { get; set; }
+        public IEnumerable data { get; set; }
         public int? totalCount { get; set; }
     }
 }

@@ -1,11 +1,11 @@
-﻿using DevExpressGrid.Extensions.Common;
+﻿using DevExpressGrid.Extensions.Helpers;
 using DevExpressGrid.Extensions.Models;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DevExpressGrid.Extensions.DataExtensions
 {
-    public static class Enumerable
+    internal static class Enumerable
     {
         public static IEnumerable<T> Where<T>(this IEnumerable<T> source, string conditions) where T : class
         {
@@ -27,6 +27,16 @@ namespace DevExpressGrid.Extensions.DataExtensions
             }
 
             return (IOrderedEnumerable<T>)source;
+        }
+
+        public static IEnumerable<object> GroupByAndSelectKey<T>(this IEnumerable<T> source, params GroupModel[] groups)
+        {
+            var lambda = ExpressionHelper.ToLambda<T>(groups[0].selector).Compile();
+            return source.GroupBy(lambda).Select(x => new
+            {
+                count = x.Count(),
+                key = x.Key
+            });
         }
     }
 }
