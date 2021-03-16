@@ -18,12 +18,17 @@ namespace DevExpressGrid.Extensions
                 .Take(filterRequest.take);
 
             var isGroupRequest = filterRequest._group?.Any() ?? false;
-            IEnumerable result = isGroupRequest ? queryable.GroupByAndSelectKey(filterRequest._group).AsEnumerable() : queryable.AsEnumerable();
-            return new FilterResult
+            var result = new FilterResult
             {
-                data = result,
                 totalCount = total
             };
+
+            if (isGroupRequest)
+                result.data = queryable.GroupByAndSelectKey(filterRequest._group).ToList();
+            else
+                result.data = queryable.ToList();
+
+            return result;
         }
     }
 }

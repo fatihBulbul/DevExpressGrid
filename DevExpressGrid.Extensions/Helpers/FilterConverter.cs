@@ -56,7 +56,7 @@ namespace DevExpressGrid.Extensions.Helpers
 
             var parameter = Expression.Parameter(typeof(T), "x");
             var member = Expression.MakeMemberAccess(parameter, propertyInfo);
-            var changeTypeValue = value == null ? null : Convert.ChangeType(value, propertyInfo.PropertyType);
+            var changeTypeValue = TypeHelper.ChangeType(value, propertyInfo.PropertyType);
             var constant = Expression.Constant(changeTypeValue, propertyInfo.PropertyType);
 
             var body = filters[filterType](member, constant);

@@ -15,8 +15,8 @@ namespace DevExpressGrid.Presentation.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>().HasData(
-                new Customer { ID = 1, CompanyName = "Premier Buy", Address = "7601 Penn Avenue South", City = "Richfield", State = "Minnesota", Zipcode = 55423, Phone = "(612) 291-1000", Fax = "(612) 291-2001", Website = "http://www.nowebsitepremierbuy.com" },
-                new Customer { ID = 2, CompanyName = "ElectrixMax", Address = "263 Shuman Blvd", City = "Naperville", State = "Illinois", Zipcode = 60563, Phone = "(630) 438-7800", Fax = "(630) 438-7801", Website = "http://www.nowebsiteelectrixmax.com" },
+                new Customer { ID = 1, Approve = true, CompanyName = "Premier Buy", Address = "7601 Penn Avenue South", City = "Richfield", State = "Minnesota", Zipcode = 55423, Phone = "(612) 291-1000", Fax = "(612) 291-2001", Website = "http://www.nowebsitepremierbuy.com" },
+                new Customer { ID = 2, Approve = false, CompanyName = "ElectrixMax", Address = "263 Shuman Blvd", City = "Naperville", State = "Illinois", Zipcode = 60563, Phone = "(630) 438-7800", Fax = "(630) 438-7801", Website = "http://www.nowebsiteelectrixmax.com" },
                 new Customer { ID = 3, CompanyName = "Video Emporium", Address = "1201 Elm Street", City = "Dallas", State = "Texas", Zipcode = 75270, Phone = "(214) 854-3000", Fax = "(214) 854-3001", Website = "http://www.nowebsitevideoemporium.com" },
                 new Customer { ID = 4, CompanyName = "Screen Shop", Address = "1000 Lowes Blvd", City = "Mooresville", State = "North Carolina", Zipcode = 28117, Phone = "(800) 445-6937", Fax = "(800) 445-6938", Website = "http://www.nowebsitescreenshop.com" },
                 new Customer { ID = 5, CompanyName = "Braeburn", Address = "1 Infinite Loop", City = "Cupertino", State = "California", Zipcode = 95014, Phone = "(408) 996-1010", Fax = "(408) 996-1012", Website = "http://www.nowebsitebraeburn.com" },
@@ -36,6 +36,7 @@ namespace DevExpressGrid.Presentation.Models
     public class Customer
     {
         public long ID { get; set; }
+        public bool? Approve { get; set; }
 
         public string CompanyName { get; set; }
 

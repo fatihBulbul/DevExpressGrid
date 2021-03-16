@@ -17,5 +17,18 @@ namespace DevExpressGrid.Extensions.Helpers
         {
             return Nullable.GetUnderlyingType(type) != null;
         }
+
+        public static object ChangeType(object value, Type t)
+        {
+            if (t.IsGenericType && t.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+            {
+                if (value == null)
+                    return null;
+
+                t = Nullable.GetUnderlyingType(t);
+            }
+
+            return Convert.ChangeType(value, t);
+        }
     }
 }
